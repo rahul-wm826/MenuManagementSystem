@@ -1,0 +1,29 @@
+<div *ngIf="client">
+  <h2>{{ client.name }}</h2>
+  <p>Email: {{ client.email }}</p>
+  <p>Phone: {{ client.phone }}</p>
+</div>
+
+<h3>Create New Event</h3>
+<form [formGroup]="eventForm" (ngSubmit)="onEventSubmit()">
+  <div>
+    <label for="name">Name:</label>
+    <input id="name" formControlName="name">
+  </div>
+  <div>
+    <label for="status">Status:</label>
+    <select id="status" formControlName="status">
+      <option value="Potential">Potential</option>
+      <option value="Confirmed">Confirmed</option>
+      <option value="Completed">Completed</option>
+    </select>
+  </div>
+  <button type="submit" [disabled]="!eventForm.valid">Create Event</button>
+</form>
+
+<h3>Events</h3>
+<ul>
+  <li *ngFor="let event of clientEvents">
+    <a [routerLink]="['/events', event._id]">{{ event.name }} ({{ event.status }})</a>
+  </li>
+</ul>
