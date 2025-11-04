@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 const categoryController = require('../controllers/category.controller');
 const { authenticateToken, authorizeRole } = require('../middleware/auth.middleware');
+const dishController = require('../controllers/dish.controller');
 
 // Public routes
 router.get('/', authenticateToken, categoryController.getAllCategories);
+router.get('/:categoryId/dishes', authenticateToken, dishController.getDishesByCategory);
 router.get('/:id', authenticateToken, categoryController.getCategoryById);
 
 // Protected routes for admin and chef
