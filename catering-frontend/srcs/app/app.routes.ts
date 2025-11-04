@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { CategoryManagementComponent } from './features/menu-admin/pages/category-management/category-management.component';
+import { DishManagementComponent } from './features/menu-admin/pages/dish-management/dish-management.component';
+import { ClientManagementComponent } from './features/clients/pages/client-management/client-management.component';
 
 export const routes: Routes = [
     {
@@ -16,6 +18,16 @@ export const routes: Routes = [
     {
         path: 'admin/categories',
         component: CategoryManagementComponent,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'admin/dishes',
+        component: DishManagementComponent,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'clients',
+        component: ClientManagementComponent,
         canActivate: [authGuard]
     },
     {
