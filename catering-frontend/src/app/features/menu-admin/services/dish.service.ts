@@ -8,6 +8,7 @@ export interface Dish {
   description: string;
   price: number;
   category: string;
+  images: string[];
 }
 
 @Injectable({

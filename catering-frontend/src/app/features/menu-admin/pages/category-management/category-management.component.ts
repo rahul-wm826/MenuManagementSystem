@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoryService } from '../../services/category.service';
@@ -11,7 +11,7 @@ import { CategoryService } from '../../services/category.service';
   styleUrl: './category-management.component.scss',
 })
 export class CategoryManagementComponent implements OnInit {
-  categories: any[] = [];
+  categories = signal<any[]>([]);
   categoryForm: FormGroup;
   editingCategoryId: string | null = null;
 
@@ -31,7 +31,7 @@ export class CategoryManagementComponent implements OnInit {
 
   loadCategories() {
     this.categoryService.getCategories().subscribe(data => {
-      this.categories = data;
+      this.categories.set(data);
     });
   }
 

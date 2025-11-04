@@ -17,10 +17,10 @@
   <hr>
 
   <h3>Categories</h3>
-  <div *ngFor="let cat of categories">
+  @for (cat of categories(); track cat._id) {
     <h4>{{ cat.name }}</h4>
     <p>{{ cat.description }}</p>
     <button (click)="onEdit(cat)">Edit</button>
     <button (click)="onDelete(cat._id)">Delete</button>
-  </div>
+  }
 </div>
