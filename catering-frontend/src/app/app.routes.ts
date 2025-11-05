@@ -19,6 +19,10 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
+        path: 'client-view/:token',
+        loadComponent: () => import('./features/client-view/pages/client-view/client-view.component').then(m => m.ClientViewComponent)
+    },
+    {
         path: '',
         redirectTo: '/auth/register',
         pathMatch: 'full'
