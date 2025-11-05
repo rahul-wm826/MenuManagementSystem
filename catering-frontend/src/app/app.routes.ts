@@ -29,6 +29,11 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
+        path: 'proposals',
+        loadComponent: () => import('./features/proposals/pages/proposal-list/proposal-list.component').then(m => m.ProposalListComponent),
+        canActivate: [authGuard]
+    },
+    {
         path: 'proposals/builder/:functionId',
         loadComponent: () => import('./features/proposals/pages/builder/builder.component').then(m => m.BuilderComponent),
         canActivate: [authGuard]
