@@ -1,8 +1,0 @@
-<h2>All Proposals</h2>
-<ul>
-  <li *ngFor="let prop of proposals">
-    <a [routerLink]="['/proposals', prop._id]">
-      {{ prop.name }} - (Status: {{ prop.status }})
-    </a>
-  </li>
-</ul>

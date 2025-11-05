@@ -19,14 +19,8 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
-        path: 'proposals',
-        loadComponent: () => import('./features/proposals/pages/proposal-list/proposal-list.component').then(m => m.ProposalListComponent),
-        canActivate: [authGuard]
-    },
-    {
-        path: 'proposals/:id',
-        loadComponent: () => import('./features/proposals/pages/proposal-detail/proposal-detail.component').then(m => m.ProposalDetailComponent),
-        canActivate: [authGuard]
+        path: 'client-view/:token',
+        loadComponent: () => import('./features/client-view/pages/client-view/client-view.component').then(m => m.ClientViewComponent)
     },
     {
         path: '',
