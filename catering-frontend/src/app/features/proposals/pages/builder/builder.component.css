@@ -1,8 +1,0 @@
-.builder-container { display: flex; gap: 20px; }
-.master-list-panel, .proposal-panel { flex: 1; border: 1px solid #ccc; padding: 10px; }
-.list-box { min-height: 200px; background: #f9f9f9; border: 1px dashed #aaa; padding: 10px; }
-.drag-item-master, .drag-item-proposal { padding: 8px; border: 1px solid #ddd; background: white; margin-bottom: 5px; cursor: move; }
-.drag-item-proposal { display: flex; justify-content: space-between; align-items: center; }
-.remove-btn { font-size: 10px; cursor: pointer; }
-.cdk-drag-placeholder { opacity: 0.3; }
-.cdk-drag-animating { transition: transform 250ms cubic-bezier(0, 0, 0.2, 1); }

@@ -19,12 +19,8 @@ export class DishService {
 
   constructor(private http: HttpClient) {}
 
-  getDishes(categoryId?: string): Observable<Dish[]> {
-    if (categoryId) {
-      return this.http.get<Dish[]>(`${this.apiUrl}/categories/${categoryId}/dishes`);
-    } else {
-      return this.http.get<Dish[]>(`${this.apiUrl}/dishes`);
-    }
+  getDishes(categoryId: string): Observable<Dish[]> {
+    return this.http.get<Dish[]>(`${this.apiUrl}/categories/${categoryId}/dishes`);
   }
 
   getDish(categoryId: string, dishId: string): Observable<Dish> {
