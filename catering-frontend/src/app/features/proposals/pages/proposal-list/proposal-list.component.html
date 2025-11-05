@@ -1,0 +1,13 @@
+<div class="card">
+  <h2>All Proposals</h2>
+  <div class="list-group">
+    <div *ngFor="let prop of proposals" class="list-item">
+      <div>
+        <h3>
+          <a [routerLink]="['/proposals', prop._id]">{{ prop.name }}</a>
+        </h3>
+        <p style="margin: 0; color: var(--text-color-light);">Status: {{ prop.status }}</p>
+      </div>
+    </div>
+  </div>
+</div>

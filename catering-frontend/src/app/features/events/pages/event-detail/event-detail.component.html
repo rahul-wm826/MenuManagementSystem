@@ -1,0 +1,43 @@
+<h2 *ngIf="event">{{ event.name }} - Functions</h2>
+<div class="admin-layout">
+  <div class="form-container card">
+    <h3>{{ editingFunctionId ? 'Edit' : 'Create' }} Function</h3>
+    <form [formGroup]="functionForm" (ngSubmit)="onFunctionSubmit()">
+      <div class="form-group">
+        <label>Function Name (e.g., "Day 1 Lunch")</label>
+        <input formControlName="name">
+      </div>
+      <div class="form-group">
+        <label>Type</label>
+        <select formControlName="type">
+          <option *ngFor="let type of functionTypes" [value]="type">{{ type }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Approx. Guests</label>
+        <input type="number" formControlName="approxGuests">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea formControlName="description"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">{{ editingFunctionId ? 'Update' : 'Create' }}</button>
+    </form>
+  </div>
+  <div class="list-container">
+    <div class="list-group">
+      <div *ngFor="let func of functions" class="list-item">
+        <div>
+          <h3>
+            <a [routerLink]="['/proposals/builder', func._id]">{{ func.name }} ({{ func.type }})</a>
+          </h3>
+          <p style="margin: 0; color: var(--text-color-light);">Guests: {{ func.approxGuests || 'N/A' }}</p>
+        </div>
+        <div class="list-item-actions">
+          <button (click)="onEditFunction(func)" class="btn btn-secondary">Edit</button>
+          <button (click)="onDeleteFunction(func._id)" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
