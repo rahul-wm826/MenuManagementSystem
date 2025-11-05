@@ -1,0 +1,33 @@
+<h2 *ngIf="event">{{ event.name }} - Functions</h2>
+
+<h3>{{ editingFunctionId ? 'Edit Function' : 'Create New Function' }}</h3>
+<form [formGroup]="functionForm" (ngSubmit)="onFunctionSubmit()">
+  <div>
+    <label for="name">Name:</label>
+    <input id="name" formControlName="name">
+  </div>
+  <div>
+    <label for="type">Type:</label>
+    <select id="type" formControlName="type">
+      <option *ngFor="let type of functionTypes" [value]="type">{{ type }}</option>
+    </select>
+  </div>
+  <div>
+    <label for="approxGuests">Approx. Guests:</label>
+    <input id="approxGuests" type="number" formControlName="approxGuests">
+  </div>
+  <div>
+    <label for="description">Description:</label>
+    <textarea id="description" formControlName="description"></textarea>
+  </div>
+  <button type="submit" [disabled]="!functionForm.valid">{{ editingFunctionId ? 'Update' : 'Create' }}</button>
+</form>
+
+<h3>Functions</h3>
+<ul>
+  <li *ngFor="let func of functions">
+    <a [routerLink]="['/proposals/builder', func._id]">{{ func.name }} ({{ func.type }})</a>
+    <button (click)="onEditFunction(func)">Edit</button>
+    <button (click)="onDeleteFunction(func._id)">Delete</button>
+  </li>
+</ul>
