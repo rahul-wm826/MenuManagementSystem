@@ -1,1 +1,64 @@
-<p>builder works!</p>
+<div class="proposal-builder-container">
+  <!-- Left Column: Master Dish List -->
+  <div class="master-dish-column">
+    <h2>Master Dish List</h2>
+    <div class="filters">
+      <label for="category-filter">Filter by Category:</label>
+      <select id="category-filter" (change)="onCategoryFilterChange($event)">
+        <option value="">All Categories</option>
+        <option *ngFor="let category of categories" [value]="category._id">
+          {{ category.name }}
+        </option>
+      </select>
+    </div>
+
+    <div
+      id="master-dish-list"
+      cdkDropList
+      [cdkDropListData]="filteredDishes"
+      class="dish-list master-list"
+      [cdkDropListConnectedTo]="connectedDropLists">
+      <div class="dish-box" *ngFor="let dish of filteredDishes" cdkDrag>
+        <strong>{{ dish.name }}</strong>
+        <p>{{ dish.description }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right Column: Proposal Details and Menu Sections -->
+  <div class="proposal-column" *ngIf="currentProposal">
+    <h2>Proposal Builder</h2>
+
+    <!-- Proposal Name Form -->
+    <form [formGroup]="proposalForm" (ngSubmit)="onSaveProposal()" class="proposal-name-form">
+      <input formControlName="name" placeholder="Proposal Name" />
+      <button type="submit" [disabled]="proposalForm.invalid">Save Name</button>
+    </form>
+
+    <!-- Add New Section Form -->
+    <form [formGroup]="newSectionForm" (ngSubmit)="onAddSection()" class="add-section-form">
+      <input formControlName="title" placeholder="New Section Title" />
+      <button type="submit" [disabled]="newSectionForm.invalid">Add Section</button>
+    </form>
+
+    <!-- Menu Sections -->
+    <div class="menu-sections-container">
+      <div *ngFor="let section of currentProposal.menuSections; let i = index" class="menu-section">
+        <h3>{{ section.title }}</h3>
+        <div
+          [id]="'section-list-' + i"
+          cdkDropList
+          [cdkDropListData]="section.items"
+          class="dish-list section-list"
+          [cdkDropListConnectedTo]="connectedDropLists"
+          (cdkDropListDropped)="drop($event)">
+          <div class="dish-box proposal-item" *ngFor="let item of section.items; let itemIndex = index" cdkDrag>
+            <strong>{{ item.name }}</strong>
+            <p>{{ item.description }}</p>
+            <button class="remove-item-btn" (click)="onRemoveItem(section, itemIndex)">×</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
