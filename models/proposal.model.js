@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 
 // Sub-schema for individual menu items (snapshots of dishes)
 const menuItemSchema = new mongoose.Schema({
@@ -66,6 +67,12 @@ const proposalSchema = new mongoose.Schema({
   version: {
     type: Number,
     default: 1,
+  },
+  secretToken: {
+    type: String,
+    required: true,
+    unique: true,
+    default: uuidv4,
   },
   clientComments: [clientCommentSchema],
   menuSections: [menuSectionSchema],

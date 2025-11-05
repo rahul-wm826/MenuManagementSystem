@@ -1,0 +1,24 @@
+<div *ngIf="proposal" class="client-view-container">
+  <h2>{{ proposal.name }}</h2>
+  <p><strong>Status:</strong> {{ proposal.status }}</p>
+
+  <h3>Menu</h3>
+  <div *ngFor="let section of proposal.menuSections" class="menu-section">
+    <h4>{{ section.title }}</h4>
+    <div *ngFor="let item of section.items" class="menu-item">
+      <strong>{{ item.name }}</strong>
+      <p>{{ item.description }}</p>
+    </div>
+  </div>
+
+  <h3>Discussion</h3>
+  <div *ngFor="let c of proposal.clientComments" class="comment-box">
+    <strong>{{ c.author }}</strong><p>{{ c.comment }}</p>
+  </div>
+
+  <h3>Add Your Comment</h3>
+  <form [formGroup]="commentForm" (ngSubmit)="onCommentSubmit()">
+    <textarea formControlName="comment" placeholder="Questions or comments..."></textarea>
+    <button type="submit">Submit Comment</button>
+  </form>
+</div>
