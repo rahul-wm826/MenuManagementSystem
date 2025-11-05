@@ -1,1 +1,13 @@
-<button (click)="logout()">Logout</button>
+<nav class="navbar">
+  <div class="nav-container">
+    <a class="nav-brand" routerLink="/dashboard">CateringPro</a>
+    <div class="nav-links">
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/proposals">Proposals</a>
+      <a routerLink="/clients">Clients</a>
+      <a routerLink="/admin/categories">Categories</a>
+      <a routerLink="/admin/dishes">Dishes</a>
+    </div>
+    <button (click)="logout()" class="btn btn-secondary">Logout</button>
+  </div>
+</nav>
