@@ -203,3 +203,15 @@ exports.emailProposal = async (req, res) => {
         res.status(500).json({ message: 'Failed to send email.', error: error.message });
     }
 };
+
+exports.getPublicProposalByToken = async (req, res) => {
+    try {
+        const proposal = await Proposal.findOne({ secretToken: req.params.token });
+        if (!proposal) {
+            return res.status(404).send({ message: 'Proposal not found.' });
+        }
+        res.status(200).json(proposal);
+    } catch (error) {
+        res.status(500).send({ message: 'Error fetching proposal.' });
+    }
+};
