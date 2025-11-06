@@ -12,7 +12,7 @@ import { CategoryService } from '../../services/category.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './dish-management.component.html',
-  styleUrl: './dish-management.component.scss'
+  styleUrls: ['./dish-management.component.scss', '../admin-layout.scss']
 })
 export class DishManagementComponent implements OnInit {
   dishes: (Dish & { categoryName: string })[] = [];

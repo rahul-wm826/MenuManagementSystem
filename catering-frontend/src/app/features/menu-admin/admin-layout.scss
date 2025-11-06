@@ -1,0 +1,10 @@
+.admin-layout {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 24px;
+}
+
+.form-container {
+  position: sticky;
+  top: 24px;
+}
