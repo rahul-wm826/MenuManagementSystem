@@ -9,7 +9,7 @@ import { ProposalService } from '../../services/proposal.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './proposal-detail.component.html',
-  styleUrls: ['./proposal-detail.component.css']
+  styleUrls: ['./proposal-detail.component.scss']
 })
 export class ProposalDetailComponent implements OnInit {
   proposal: any;

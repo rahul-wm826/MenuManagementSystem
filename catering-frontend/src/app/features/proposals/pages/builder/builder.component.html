@@ -1,50 +1,58 @@
 <div class="builder-container" *ngIf="currentProposal">
-  <div class="master-list-panel card">
-    <h2>Master Dish List</h2>
-    <div class="form-group">
-      <select (change)="onCategoryFilterChange($event)">
-        <option value="">All Categories</option>
-        <option *ngFor="let cat of categories" [value]="cat._id">{{ cat.name }}</option>
-      </select>
+  <div class="card">
+    <div class="card__header">
+      <h2>Master Dish List</h2>
     </div>
-    <div
-      id="master-dish-list"
-      cdkDropList
-      [cdkDropListData]="filteredDishes"
-      [cdkDropListConnectedTo]="connectedDropLists"
-      (cdkDropListDropped)="drop($event)"
-      class="list-box">
-      <div *ngFor="let dish of filteredDishes" class="drag-item-master" cdkDrag>{{ dish.name }}</div>
+    <div class="card__body">
+      <div class="form-group">
+        <select (change)="onCategoryFilterChange($event)">
+          <option value="">All Categories</option>
+          <option *ngFor="let cat of categories" [value]="cat._id">{{ cat.name }}</option>
+        </select>
+      </div>
+      <div
+        id="master-dish-list"
+        cdkDropList
+        [cdkDropListData]="filteredDishes"
+        [cdkDropListConnectedTo]="connectedDropLists"
+        (cdkDropListDropped)="drop($event)"
+        class="list-box">
+        <div *ngFor="let dish of filteredDishes" class="drag-item-master" cdkDrag>{{ dish.name }}</div>
+      </div>
     </div>
   </div>
 
-  <div class="proposal-panel card">
-    <h2>Proposal Builder</h2>
-    <form [formGroup]="proposalForm" (ngSubmit)="onSaveProposal()" class="form-inline">
-      <div class="form-group" style="flex-grow: 1;">
-        <input formControlName="name" placeholder="Proposal Name" />
-      </div>
-      <button type="submit" class="btn btn-primary">Save Name</button>
-    </form>
-    <form [formGroup]="newSectionForm" (ngSubmit)="onAddSection()" class="form-inline">
-      <div class="form-group" style="flex-grow: 1;">
-        <input formControlName="title" placeholder="New Section Title (e.g., Appetizers)" />
-      </div>
-      <button type="submit" class="btn btn-secondary">Add Section</button>
-    </form>
+  <div class="card">
+    <div class="card__header">
+      <h2>Proposal Builder</h2>
+    </div>
+    <div class="card__body">
+      <form [formGroup]="proposalForm" (ngSubmit)="onSaveProposal()" class="form-inline">
+        <div class="form-group" style="flex-grow: 1;">
+          <input formControlName="name" placeholder="Proposal Name" />
+        </div>
+        <button type="submit" class="btn">Save Name</button>
+      </form>
+      <form [formGroup]="newSectionForm" (ngSubmit)="onAddSection()" class="form-inline">
+        <div class="form-group" style="flex-grow: 1;">
+          <input formControlName="title" placeholder="New Section Title (e.g., Appetizers)" />
+        </div>
+        <button type="submit" class="btn">Add Section</button>
+      </form>
 
-    <div *ngFor="let section of currentProposal.menuSections; let i = index" class="section-box">
-      <h3>{{ section.title }}</h3>
-      <div
-        [id]="'section-list-' + i"
-        cdkDropList
-        [cdkDropListData]="section.items"
-        [cdkDropListConnectedTo]="connectedDropLists"
-        (cdkDropListDropped)="drop($event)"
-        class="list-box section-drop-list">
-        <div *ngFor="let item of section.items; let itemIndex = index" class="drag-item-proposal" cdkDrag>
-          {{ item.name }}
-          <button (click)="onRemoveItem(section, itemIndex)" class="remove-btn">X</button>
+      <div *ngFor="let section of currentProposal.menuSections; let i = index" class="section-box">
+        <h3>{{ section.title }}</h3>
+        <div
+          [id]="'section-list-' + i"
+          cdkDropList
+          [cdkDropListData]="section.items"
+          [cdkDropListConnectedTo]="connectedDropLists"
+          (cdkDropListDropped)="drop($event)"
+          class="list-box section-drop-list">
+          <div *ngFor="let item of section.items; let itemIndex = index" class="drag-item-proposal" cdkDrag>
+            {{ item.name }}
+            <button (click)="onRemoveItem(section, itemIndex)" class="remove-btn">X</button>
+          </div>
         </div>
       </div>
     </div>
