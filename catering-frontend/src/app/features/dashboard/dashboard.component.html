@@ -1,13 +1,32 @@
-<div class="main-container">
-  <h2>Catering Admin Dashboard</h2>
-  <nav>
-    <a routerLink="/admin/categories">Manage Categories</a>
-    <a routerLink="/admin/dishes">Manage Dishes</a>
-    <a routerLink="/proposals" class="nav-card">
-      <div class="card">
-        <h3>Manage Proposals</h3>
-        <p>View, create, and send client proposals.</p>
-      </div>
-    </a>
-  </nav>
+<h2>Catering Admin Dashboard</h2>
+<div class="dashboard-grid">
+
+  <a routerLink="/proposals" class="nav-card">
+    <div class="card">
+      <h3>Manage Proposals</h3>
+      <p>View, create, and send client proposals.</p>
+    </div>
+  </a>
+
+  <a routerLink="/clients" class="nav-card">
+    <div class="card">
+      <h3>Manage Clients</h3>
+      <p>View and edit your list of clients.</p>
+    </div>
+  </a>
+
+  <a routerLink="/admin/categories" class="nav-card">
+    <div class="card">
+      <h3>Menu Categories</h3>
+      <p>Admin: Manage dish categories.</p>
+    </div>
+  </a>
+
+  <a routerLink="/admin/dishes" class="nav-card">
+    <div class="card">
+      <h3>Menu Dishes</h3>
+      <p>Admin: Create and edit master dishes.</p>
+    </div>
+  </a>
+
 </div>
