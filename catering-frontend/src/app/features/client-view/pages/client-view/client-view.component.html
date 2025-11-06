@@ -1,11 +1,11 @@
-<div class="client-view-container" *ngIf="proposal">
+<div class="client-view-container" *ngIf="proposal()">
   <div class="card">
     <div class="card__header">
-      <h2>{{ proposal.name }}</h2>
-      <p>Status: {{ proposal.status }}</p>
+      <h2>{{ proposal().name }}</h2>
+      <p>Status: {{ proposal().status }}</p>
     </div>
     <div class="card__body">
-      <div *ngFor="let section of proposal.menuSections" class="menu-section">
+      <div *ngFor="let section of proposal().menuSections" class="menu-section">
         <h3>{{ section.title }}</h3>
         <ul class="dish-list">
           <li *ngFor="let item of section.items">{{ item.name }}</li>
@@ -20,11 +20,11 @@
     </div>
     <div class="card__body">
       <div class="list-group">
-        <div *ngFor="let c of proposal.clientComments" class="list-item">
+        <div *ngFor="let c of proposal().clientComments" class="list-item">
           <strong>{{ c.author }}</strong> ({{ c.createdAt | date:'short' }})
           <p>{{ c.comment }}</p>
         </div>
-        <div *ngIf="proposal.clientComments.length === 0" class="list-item">
+        <div *ngIf="proposal().clientComments.length === 0" class="list-item">
           No comments yet.
         </div>
       </div>

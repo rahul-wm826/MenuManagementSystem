@@ -8,7 +8,7 @@ import { CategoryService } from '../../services/category.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './category-management.component.html',
-  styleUrls: ['./category-management.component.scss', '../admin-layout.scss'],
+  styleUrls: ['./category-management.component.scss', '../../admin-layout.scss'],
 })
 export class CategoryManagementComponent implements OnInit {
   categories = signal<any[]>([]);

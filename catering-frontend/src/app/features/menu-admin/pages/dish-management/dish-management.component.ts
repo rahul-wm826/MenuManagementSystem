@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { forkJoin } from 'rxjs';
@@ -12,13 +12,13 @@ import { CategoryService } from '../../services/category.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './dish-management.component.html',
-  styleUrls: ['./dish-management.component.scss', '../admin-layout.scss']
+  styleUrls: ['./dish-management.component.scss', '../../admin-layout.scss']
 })
 export class DishManagementComponent implements OnInit {
-  dishes: (Dish & { categoryName: string })[] = [];
-  categories: any[] = [];
+  dishes: WritableSignal<Dish[]> = signal([]);
+  categories: WritableSignal<any[]> = signal([]);
   dishForm: FormGroup;
-  editingDish: (Dish & { categoryName: string }) | null = null;
+  editingDish: Dish | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -39,19 +39,14 @@ export class DishManagementComponent implements OnInit {
   }
 
   loadCategoriesAndDishes(): void {
-    this.categoryService.getCategories().pipe(
-      switchMap(categories => {
-        this.categories = categories;
-        const dishRequests = categories.map(cat =>
-          this.dishService.getDishes(cat._id).pipe(
-            map(dishes => dishes.map(d => ({ ...d, categoryName: cat.name })))
-          )
-        );
-        return forkJoin(dishRequests);
-      }),
-      map(dishesByCat => dishesByCat.flat())
-    ).subscribe(allDishes => {
-      this.dishes = allDishes;
+    // Fetch categories
+    this.categoryService.getCategories().subscribe(categories => {
+      this.categories.set(categories);
+    });
+
+    // Fetch dishes
+    this.dishService.getDishes().subscribe(dishes => {
+      this.dishes.set(dishes);
     });
   }
 
@@ -68,14 +63,14 @@ export class DishManagementComponent implements OnInit {
 
     if (this.editingDish) {
       const categoryId = this.editingDish.category;
-      this.dishService.updateDish(categoryId, this.editingDish._id, formData).subscribe(() => this.resetFormAndReload());
+      this.dishService.updateDish(this.editingDish._id, formData).subscribe(() => this.resetFormAndReload());
     } else {
       const categoryId = this.dishForm.value.category;
-      this.dishService.createDish(categoryId, formData).subscribe(() => this.resetFormAndReload());
+      this.dishService.createDish(formData).subscribe(() => this.resetFormAndReload());
     }
   }
 
-  onEdit(dish: Dish & { categoryName: string }): void {
+  onEdit(dish: Dish): void {
     this.editingDish = dish;
     this.dishForm.patchValue({
       name: dish.name,
@@ -88,15 +83,15 @@ export class DishManagementComponent implements OnInit {
 
   onDelete(dish: Dish): void {
     if (confirm('Are you sure you want to delete this dish?')) {
-      this.dishService.deleteDish(dish.category, dish._id).subscribe(() => this.loadCategoriesAndDishes());
+      this.dishService.deleteDish(dish._id).subscribe(() => this.loadCategoriesAndDishes());
     }
   }
 
   resetFormAndReload(): void {
     this.editingDish = null;
     this.dishForm.reset({
-        price: 0,
-        category: ''
+      price: 0,
+      category: ''
     });
     this.loadCategoriesAndDishes();
   }

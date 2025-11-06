@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -13,7 +13,7 @@ import { ProposalService } from '../../../proposals/services/proposal.service';
   styleUrls: ['./client-view.component.scss']
 })
 export class ClientViewComponent implements OnInit {
-  proposal: any;
+  proposal: any = signal({ name: 'Loading...', clientComments: [] });
   token: string = '';
   commentForm: FormGroup;
 
@@ -35,7 +35,7 @@ export class ClientViewComponent implements OnInit {
 
   loadProposal() {
     this.publicProposalService.getPublicProposal(this.token).subscribe(data => {
-      this.proposal = data;
+      this.proposal.set(data);
     });
   }
 
@@ -45,7 +45,7 @@ export class ClientViewComponent implements OnInit {
       comment: this.commentForm.value.comment,
       author: 'Client'
     };
-    this.proposalService.addComment(this.proposal._id, commentData).subscribe(() => {
+    this.proposalService.addComment(this.proposal()._id, commentData).subscribe(() => {
       this.commentForm.reset();
       this.loadProposal();
     });

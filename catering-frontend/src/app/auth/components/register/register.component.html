@@ -1,11 +1,19 @@
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label for="email">Email</label>
-    <input type="email" id="email" formControlName="email">
+<div class="auth-container">
+  <div class="card">
+    <h2>Register</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password" type="password" formControlName="password">
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!registerForm.valid" style="width: 100%;">Register</button>
+    </form>
+    <p style="text-align: center; margin-top: 16px;">
+      Don't have an account? <a routerLink="/auth/login">Login</a>
+    </p>
   </div>
-  <div>
-    <label for="password">Password</label>
-    <input type="password" id="password" formControlName="password">
-  </div>
-  <button type="submit" [disabled]="registerForm.invalid">Login</button>
-</form>
+</div>

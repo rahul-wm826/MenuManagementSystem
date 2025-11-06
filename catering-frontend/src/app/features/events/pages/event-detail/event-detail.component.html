@@ -1,11 +1,11 @@
-<h2 *ngIf="event">{{ event.name }} - Functions</h2>
+<h2 *ngIf="event()">{{ event().name }} - Functions</h2>
 <div class="admin-layout">
   <div class="form-container card">
     <h3>{{ editingFunctionId ? 'Edit' : 'Create' }} Function</h3>
     <form [formGroup]="functionForm" (ngSubmit)="onFunctionSubmit()">
       <div class="form-group">
         <label>Function Name (e.g., "Day 1 Lunch")</label>
-        <input formControlName="name">
+        <input formControlName="name" type="text">
       </div>
       <div class="form-group">
         <label>Type</label>
@@ -15,7 +15,7 @@
       </div>
       <div class="form-group">
         <label>Approx. Guests</label>
-        <input type="number" formControlName="approxGuests">
+        <input type="text" formControlName="approxGuests">
       </div>
       <div class="form-group">
         <label>Description</label>
@@ -26,7 +26,7 @@
   </div>
   <div class="list-container">
     <div class="list-group">
-      <div *ngFor="let func of functions" class="list-item">
+      <div *ngFor="let func of functions()" class="list-item">
         <div>
           <h3>
             <a [routerLink]="['/proposals/builder', func._id]">{{ func.name }} ({{ func.type }})</a>

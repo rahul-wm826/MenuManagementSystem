@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -10,12 +10,12 @@ import { EventService } from '../../../events/services/event.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './client-detail.component.html',
-  styleUrls: ['./client-detail.component.scss']
+  styleUrls: ['./client-detail.scss']
 })
 export class ClientDetailComponent implements OnInit {
-  client: any;
+  client= signal<any>(null);
   clientId: string = '';
-  clientEvents: any[] = [];
+  clientEvents = signal<any[]>([]);
   eventForm: FormGroup;
 
   constructor(
@@ -37,12 +37,13 @@ export class ClientDetailComponent implements OnInit {
   }
 
   loadClient() {
-    this.clientService.getClientById(this.clientId).subscribe(data => this.client = data);
+    this.clientService.getClientById(this.clientId).subscribe(data => this.client.set(data));
   }
 
   loadEvents() {
     this.eventService.getEvents().subscribe(allEvents => {
-      this.clientEvents = allEvents.filter(event => event.clientId === this.clientId);
+      console.log(this.clientId);
+      this.clientEvents.set(allEvents.filter((event: any) => event.clientId._id === this.clientId));
     });
   }
 

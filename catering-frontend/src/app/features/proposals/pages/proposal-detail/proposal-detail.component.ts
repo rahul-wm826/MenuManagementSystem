@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -12,7 +12,7 @@ import { ProposalService } from '../../services/proposal.service';
   styleUrls: ['./proposal-detail.component.scss']
 })
 export class ProposalDetailComponent implements OnInit {
-  proposal: any;
+  proposal: any = signal({ name: 'Loading...', clientComments: [] });
   proposalId: string = '';
   publicShareLink: string = '';
   emailForm: FormGroup;
@@ -40,16 +40,16 @@ export class ProposalDetailComponent implements OnInit {
 
   loadProposal() {
     this.proposalService.getProposalById(this.proposalId).subscribe(data => {
-      this.proposal = data;
-      this.publicShareLink = `${window.location.origin}/client-view/${this.proposal.secretToken}`;
-      if (this.proposal.clientId && this.proposal.clientId.email && !this.emailForm.value.toEmail) {
-        this.emailForm.patchValue({ toEmail: this.proposal.clientId.email });
+      this.proposal.set(data);
+      this.publicShareLink = `${window.location.origin}/client-view/${this.proposal().secretToken}`;
+      if (this.proposal().clientId && this.proposal().clientId.email && !this.emailForm.value.toEmail) {
+        this.emailForm.patchValue({ toEmail: this.proposal().clientId.email });
       }
     });
   }
 
   onExport() {
-    this.proposalService.exportPdf(this.proposalId, this.proposal.name).subscribe(res => {
+    this.proposalService.exportPdf(this.proposalId, this.proposal().name).subscribe(res => {
       console.log('PDF exported');
     });
   }

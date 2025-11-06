@@ -33,10 +33,10 @@ export class EventService {
   }
 
   updateFunction(functionId: string, data: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/functions/${functionId}`, data);
+    return this.http.put(`${this.apiUrl}/eventfunctions/${functionId}`, data);
   }
 
   deleteFunction(functionId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/functions/${functionId}`);
+    return this.http.delete(`${this.apiUrl}/eventfunctions/${functionId}`);
   }
 }

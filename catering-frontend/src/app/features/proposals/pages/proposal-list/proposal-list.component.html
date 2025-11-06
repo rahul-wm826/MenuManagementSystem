@@ -1,7 +1,7 @@
 <div class="card">
   <h2>All Proposals</h2>
   <div class="list-group">
-    <div *ngFor="let prop of proposals" class="list-item">
+    <div *ngFor="let prop of proposals()" class="list-item">
       <div>
         <h3>
           <a [routerLink]="['/proposals', prop._id]">{{ prop.name }}</a>

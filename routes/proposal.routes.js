@@ -3,8 +3,11 @@ const router = express.Router();
 const proposalController = require('../controllers/proposal.controller');
 const { authenticateToken, authorizeRole } = require('../middleware/auth.middleware');
 
+//  To get all proposals
+router.get('/', authenticateToken, authorizeRole(['admin', 'sales']), proposalController.listProposals);
+
 // Public route for clients
-router.get('/proposals/public/:token', proposalController.getPublicProposalByToken);
+router.get('/public/:token', proposalController.getPublicProposalByToken);
 
 // Routes for operating on a single proposal by its ID
 router.get('/:id', authenticateToken, proposalController.getProposalById);

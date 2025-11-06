@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { CategoryManagementComponent } from './features/menu-admin/pages/category-management/category-management.component';
+import { DishManagementComponent } from './features/menu-admin/pages/dish-management/dish-management.component';
 
 export const routes: Routes = [
     {
@@ -19,8 +20,18 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
+        path: 'admin/dishes',
+        component: DishManagementComponent,
+        canActivate: [authGuard]
+    },
+    {
         path: 'clients/:id',
         loadComponent: () => import('./features/clients/pages/client-detail/client-detail.component').then(m => m.ClientDetailComponent),
+        canActivate: [authGuard]
+    },
+    {
+        path: 'clients',
+        loadComponent: () => import('./features/clients/pages/client-management/client-management.component').then(m => m.ClientManagementComponent),
         canActivate: [authGuard]
     },
     {
@@ -36,6 +47,11 @@ export const routes: Routes = [
     {
         path: 'proposals/builder/:functionId',
         loadComponent: () => import('./features/proposals/pages/builder/builder.component').then(m => m.BuilderComponent),
+        canActivate: [authGuard]
+    },
+    {
+        path: 'proposals/:id',
+        loadComponent: () => import('./features/proposals/pages/proposal-detail/proposal-detail.component').then(m => m.ProposalDetailComponent),
         canActivate: [authGuard]
     },
     {

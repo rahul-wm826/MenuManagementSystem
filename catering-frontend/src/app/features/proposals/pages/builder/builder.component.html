@@ -29,13 +29,13 @@
     <div class="card__body">
       <form [formGroup]="proposalForm" (ngSubmit)="onSaveProposal()" class="form-inline">
         <div class="form-group" style="flex-grow: 1;">
-          <input formControlName="name" placeholder="Proposal Name" />
+          <input formControlName="name" placeholder="Proposal Name" type="text" />
         </div>
         <button type="submit" class="btn">Save Name</button>
       </form>
       <form [formGroup]="newSectionForm" (ngSubmit)="onAddSection()" class="form-inline">
         <div class="form-group" style="flex-grow: 1;">
-          <input formControlName="title" placeholder="New Section Title (e.g., Appetizers)" />
+          <input formControlName="title" placeholder="New Section Title (e.g., Appetizers)" type="text"/>
         </div>
         <button type="submit" class="btn">Add Section</button>
       </form>

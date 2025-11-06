@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -13,7 +13,7 @@ import { ClientService } from '../../services/client.service';
   styleUrls: ['./client-management.component.scss', '../../../menu-admin/admin-layout.scss']
 })
 export class ClientManagementComponent implements OnInit {
-  clients: any[] = [];
+  clients = signal<any[]>([]);
   clientForm: FormGroup;
   editingClientId: string | null = null;
 
@@ -34,7 +34,7 @@ export class ClientManagementComponent implements OnInit {
   }
 
   loadClients(): void {
-    this.clientService.getClients().subscribe(data => this.clients = data);
+    this.clientService.getClients().subscribe(data => this.clients.set(data));
   }
 
   onSubmit(): void {

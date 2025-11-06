@@ -8,4 +8,7 @@ router.get('/:id', authenticateToken, eventFunctionController.getFunctionById);
 router.put('/:id', authenticateToken, authorizeRole(['admin', 'sales']), eventFunctionController.updateFunctionById);
 router.delete('/:id', authenticateToken, authorizeRole(['admin', 'sales']), eventFunctionController.deleteFunctionById);
 
+router.get('/:functionId/proposals', authenticateToken, authorizeRole(['admin', 'sales']), eventFunctionController.getProposalsForFunction);
+router.post('/:functionId/proposals', authenticateToken, authorizeRole(['admin', 'sales']), eventFunctionController.createProposal);
+
 module.exports = router;

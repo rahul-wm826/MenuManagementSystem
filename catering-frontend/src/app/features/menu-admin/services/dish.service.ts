@@ -7,7 +7,9 @@ export interface Dish {
   name: string;
   description: string;
   price: number;
-  category: string;
+  category: {
+    name: string;
+  };
   images: string[];
 }
 
@@ -19,23 +21,27 @@ export class DishService {
 
   constructor(private http: HttpClient) {}
 
-  getDishes(categoryId: string): Observable<Dish[]> {
-    return this.http.get<Dish[]>(`${this.apiUrl}/categories/${categoryId}/dishes`);
+  getAllDishes() {
+    return this.http.get<Dish[]>(`${this.apiUrl}/dishes`);
+  }
+  
+  getDishes(): Observable<Dish[]> {
+    return this.http.get<Dish[]>(`${this.apiUrl}/dishes`);
   }
 
-  getDish(categoryId: string, dishId: string): Observable<Dish> {
-    return this.http.get<Dish>(`${this.apiUrl}/categories/${categoryId}/dishes/${dishId}`);
+  getDish(dishId: string): Observable<Dish> {
+    return this.http.get<Dish>(`${this.apiUrl}/dishes/${dishId}`);
   }
 
-  createDish(categoryId: string, data: Partial<Dish>): Observable<Dish> {
-    return this.http.post<Dish>(`${this.apiUrl}/categories/${categoryId}/dishes`, data);
+  createDish(data: Partial<Dish>): Observable<Dish> {
+    return this.http.post<Dish>(`${this.apiUrl}/dishes`, data);
   }
 
-  updateDish(categoryId: string, dishId: string, data: Partial<Dish>): Observable<Dish> {
-    return this.http.put<Dish>(`${this.apiUrl}/categories/${categoryId}/dishes/${dishId}`, data);
+  updateDish(dishId: string, data: Partial<Dish>): Observable<Dish> {
+    return this.http.put<Dish>(`${this.apiUrl}/dishes/${dishId}`, data);
   }
 
-  deleteDish(categoryId: string, dishId: string): Observable<any> {
-    return this.http.delete<any>(`${this.apiUrl}/categories/${categoryId}/dishes/${dishId}`);
+  deleteDish(dishId: string): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/dishes/${dishId}`);
   }
 }

@@ -1,9 +1,9 @@
-<div *ngIf="client">
+<div *ngIf="client()">
   <div class="card">
-    <h2>{{ client.name }}</h2>
-    <p><strong>Contact:</strong> {{ client.contactPerson || 'N/A' }}</p>
-    <p><strong>Email:</strong> {{ client.email || 'N/A' }}</p>
-    <p><strong>Phone:</strong> {{ client.phone || 'N/A' }}</p>
+    <h2>{{ client().name }}</h2>
+    <p><strong>Contact:</strong> {{ client().contactPerson || 'N/A' }}</p>
+    <p><strong>Email:</strong> {{ client().email || 'N/A' }}</p>
+    <p><strong>Phone:</strong> {{ client().phone || 'N/A' }}</p>
   </div>
 </div>
 
@@ -12,7 +12,7 @@
   <form [formGroup]="eventForm" (ngSubmit)="onEventSubmit()">
     <div class="form-group">
       <label>Event Name (e.g., "Annual Conference 2026")</label>
-      <input formControlName="name">
+      <input formControlName="name" type="text">
     </div>
     <div class="form-group">
       <label>Status</label>
@@ -30,7 +30,7 @@
 <div class="list-container">
   <h3>Events for this Client</h3>
   <div class="list-group">
-    <div *ngFor="let event of clientEvents" class="list-item">
+    <div *ngFor="let event of clientEvents()" class="list-item">
       <a [routerLink]="['/events', event._id]">{{ event.name }} ({{ event.status }})</a>
     </div>
   </div>

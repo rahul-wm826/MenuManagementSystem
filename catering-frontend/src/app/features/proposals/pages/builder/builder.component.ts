@@ -7,6 +7,8 @@ import { DragDropModule, CdkDragDrop, moveItemInArray, transferArrayItem } from 
 import { ProposalService } from '../../services/proposal.service';
 import { DishService } from '../../../menu-admin/services/dish.service';
 import { CategoryService } from '../../../menu-admin/services/category.service';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-builder',
@@ -21,7 +23,7 @@ import { CategoryService } from '../../../menu-admin/services/category.service';
 })
 export class BuilderComponent implements OnInit {
   functionId: string = '';
-  currentProposal: any;
+  currentProposal: any = { menuSections: [] };
   masterDishes: any[] = [];
   filteredDishes: any[] = [];
   categories: any[] = [];
@@ -47,12 +49,17 @@ export class BuilderComponent implements OnInit {
   }
 
   loadMasterLists() {
-    this.dishService.getDishes().subscribe(data => { this.masterDishes = data; this.filteredDishes = data; });
+    this.dishService.getAllDishes().subscribe(data => { this.masterDishes = data; this.filteredDishes = data; });
     this.categoryService.getCategories().subscribe(data => this.categories = data);
   }
 
   loadOrCreateProposal() {
-    this.proposalService.getProposalsForFunction(this.functionId).subscribe(proposals => {
+    this.proposalService.getProposalsForFunction(this.functionId).pipe(
+      catchError(error => {
+        console.warn('No existing proposal found, creating a new one.', error);
+        return of([]);
+      })
+    ).subscribe(proposals => {
       if (proposals && proposals.length > 0) {
         this.currentProposal = proposals[0];
         this.setupProposalForms();
@@ -60,6 +67,8 @@ export class BuilderComponent implements OnInit {
         this.proposalService.createProposal(this.functionId, { name: 'New Proposal' }).subscribe(newProposal => {
           this.currentProposal = newProposal;
           this.setupProposalForms();
+        }, createError => {
+          console.error('CRITICAL: Failed to CREATE a new proposal!', createError);
         });
       }
     });
@@ -73,7 +82,7 @@ export class BuilderComponent implements OnInit {
   onCategoryFilterChange(event: Event) {
     const categoryId = (event.target as HTMLSelectElement).value;
     if (categoryId) {
-      this.filteredDishes = this.masterDishes.filter(dish => dish.category === categoryId);
+      this.filteredDishes = this.masterDishes.filter(dish => dish.category?._id === categoryId);
     } else {
       this.filteredDishes = this.masterDishes;
     }

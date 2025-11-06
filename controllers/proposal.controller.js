@@ -4,6 +4,18 @@ const Event = require('../models/event.model');
 const PDFDocument = require('pdfkit');
 const nodemailer = require('nodemailer');
 
+exports.listProposals = async (req, res) => {
+    try {
+        const proposals = await Proposal.find()
+            .populate('eventFunctionId')
+            .populate('clientId')
+            .sort({ createdAt: -1 });
+        res.status(200).json(proposals);
+    } catch (error) {
+        res.status(500).json({ message: 'Something went wrong.', error: error.message });
+    }
+};
+
 // Helper function to generate a PDF buffer
 const generatePdfBuffer = async (proposalId) => {
     const proposal = await Proposal.findById(proposalId);

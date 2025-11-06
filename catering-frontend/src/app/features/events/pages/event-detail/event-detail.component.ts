@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -9,12 +9,12 @@ import { EventService } from '../../services/event.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './event-detail.component.html',
-  styleUrls: ['./event-detail.component.scss', '../../../menu-admin/admin-layout.scss']
+  styleUrls: ['./event-detail.scss', '../../../menu-admin/admin-layout.scss']
 })
 export class EventDetailComponent implements OnInit {
-  event: any;
+  event: any = signal(null);
   eventId: string = '';
-  functions: any[] = [];
+  functions = signal<any[]>([]);
   functionForm: FormGroup;
   editingFunctionId: string | null = null;
   functionTypes = ['Breakfast', 'Lunch', 'Dinner', 'Hi-Tea', 'Cocktail', 'Other'];
@@ -39,11 +39,11 @@ export class EventDetailComponent implements OnInit {
   }
 
   loadEvent() {
-    this.eventService.getEventById(this.eventId).subscribe(data => this.event = data);
+    this.eventService.getEventById(this.eventId).subscribe(data => this.event.set(data));
   }
 
   loadFunctions() {
-    this.eventService.getFunctionsForEvent(this.eventId).subscribe(data => this.functions = data);
+    this.eventService.getFunctionsForEvent(this.eventId).subscribe(data => this.functions.set(data));
   }
 
   onFunctionSubmit() {

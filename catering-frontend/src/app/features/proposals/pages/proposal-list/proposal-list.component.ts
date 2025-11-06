@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import { ProposalService } from '../../services/proposal.service';
 
 @Component({
   selector: 'app-proposal-list',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, RouterModule],
   templateUrl: './proposal-list.component.html',
-  styleUrls: ['./proposal-list.component.scss']
+  styleUrls: ['./proposal-list.scss']
 })
 export class ProposalListComponent implements OnInit {
-  proposals: any[] = [];
+  proposals = signal<any[]>([]);
 
   constructor(private proposalService: ProposalService) { }
 
@@ -21,7 +21,7 @@ export class ProposalListComponent implements OnInit {
 
   loadProposals() {
     this.proposalService.getAllProposals().subscribe(data => {
-      this.proposals = data;
+      this.proposals.set(data);
     });
   }
 }
