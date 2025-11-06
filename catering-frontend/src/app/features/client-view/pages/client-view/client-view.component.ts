@@ -10,7 +10,7 @@ import { ProposalService } from '../../../proposals/services/proposal.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './client-view.component.html',
-  styleUrls: ['./client-view.component.css']
+  styleUrls: ['./client-view.component.scss']
 })
 export class ClientViewComponent implements OnInit {
   proposal: any;

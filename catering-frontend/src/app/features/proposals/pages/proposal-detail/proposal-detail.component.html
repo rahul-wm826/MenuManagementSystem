@@ -1,30 +1,74 @@
 <div *ngIf="proposal">
-  <h2>{{ proposal.name }}</h2>
-  <p>Status: {{ proposal.status }}</p>
-  <a [routerLink]="['/proposals/builder', proposal.eventFunctionId]">Edit This Proposal</a>
-
-  <h3>Actions</h3>
-  <button (click)="onExport()">Download as PDF</button>
-
-  <h3>Shareable Client Link</h3>
-  <p>Send this link to your client for them to view and comment:</p>
-  <input type="text" [value]="publicShareLink" readonly style="width: 100%;">
-
-  <form [formGroup]="emailForm" (ngSubmit)="onEmailSubmit()">
-    <h4>Email to Client</h4>
-    <input formControlName="toEmail" placeholder="Client Email">
-    <textarea formControlName="message"></textarea>
-    <button type="submit">Send Email</button>
-  </form>
-
-  <h3>Internal & Client Comments</h3>
-  <div *ngFor="let c of proposal.clientComments" class="comment-box">
-    <strong>{{ c.author }}</strong> ({{ c.createdAt | date:'short' }})<p>{{ c.comment }}</p>
+  <div class="page-header">
+    <div>
+      <h2>{{ proposal.name }}</h2>
+      <p>Status: {{ proposal.status }}</p>
+    </div>
+    <a [routerLink]="['/proposals/builder', proposal.eventFunctionId]" class="btn">Edit This Proposal</a>
   </div>
 
-  <form [formGroup]="commentForm" (ngSubmit)="onCommentSubmit()">
-    <h4>Add New Comment</h4>
-    <textarea formControlName="comment" placeholder="Add a comment..."></textarea>
-    <button type="submit">Post Comment</button>
-  </form>
+  <div class="admin-layout">
+    <div class="admin-layout__left">
+      <div class="card">
+        <div class="card__header">
+          <h3>Actions</h3>
+        </div>
+        <div class="card__body">
+          <button class="btn" (click)="onExport()">Download as PDF</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card__header">
+          <h3>Email to Client</h3>
+        </div>
+        <div class="card__body">
+          <form [formGroup]="emailForm" (ngSubmit)="onEmailSubmit()">
+            <div class="form-group">
+              <label for="toEmail">Client Email</label>
+              <input id="toEmail" formControlName="toEmail" placeholder="Client Email">
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" formControlName="message"></textarea>
+            </div>
+            <button type="submit" class="btn">Send Email</button>
+          </form>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card__header">
+          <h3>Shareable Client Link</h3>
+        </div>
+        <div class="card__body">
+          <p>Send this link to your client for them to view and comment:</p>
+          <input type="text" [value]="publicShareLink" readonly>
+        </div>
+      </div>
+    </div>
+    <div class="admin-layout__right">
+      <div class="card">
+        <div class="card__header">
+          <h3>Internal & Client Comments</h3>
+        </div>
+        <div class="card__body">
+          <div class="list-group">
+            <div *ngFor="let c of proposal.clientComments" class="list-item">
+              <strong>{{ c.author }}</strong> ({{ c.createdAt | date:'short' }})
+              <p>{{ c.comment }}</p>
+            </div>
+            <div *ngIf="proposal.clientComments.length === 0" class="list-item">
+              No comments yet.
+            </div>
+          </div>
+          <form [formGroup]="commentForm" (ngSubmit)="onCommentSubmit()" class="form-inset">
+            <h4>Add New Comment</h4>
+            <div class="form-group">
+              <textarea formControlName="comment" placeholder="Add a comment..."></textarea>
+            </div>
+            <button type="submit" class="btn">Post Comment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
