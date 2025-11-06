@@ -10,7 +10,7 @@ import { ClientService } from '../../services/client.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './client-management.component.html',
-  styleUrl: './client-management.component.scss'
+  styleUrls: ['./client-management.component.scss', '../../../menu-admin/admin-layout.scss']
 })
 export class ClientManagementComponent implements OnInit {
   clients: any[] = [];

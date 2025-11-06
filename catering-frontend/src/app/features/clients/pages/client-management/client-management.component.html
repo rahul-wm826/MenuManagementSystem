@@ -1,46 +1,41 @@
-<div class="container mt-4">
-  <h2>Manage Clients</h2>
-
-  <!-- Client Form -->
-  <div class="card mb-4">
-    <div class="card-body">
-      <h5 class="card-title">{{ editingClientId ? 'Edit Client' : 'Create Client' }}</h5>
-      <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
-        <div class="mb-3">
-          <label for="name" class="form-label">Name</label>
-          <input type="text" id="name" class="form-control" formControlName="name">
-        </div>
-        <div class="mb-3">
-          <label for="contactPerson" class="form-label">Contact Person</label>
-          <input type="text" id="contactPerson" class="form-control" formControlName="contactPerson">
-        </div>
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input type="email" id="email" class="form-control" formControlName="email">
-        </div>
-        <div class="mb-3">
-          <label for="phone" class="form-label">Phone</label>
-          <input type="tel" id="phone" class="form-control" formControlName="phone">
-        </div>
-        <button type="submit" class="btn btn-primary me-2">{{ editingClientId ? 'Update' : 'Create' }}</button>
-        <button type="button" class="btn btn-secondary" (click)="resetFormAndReload()">Cancel</button>
-      </form>
-    </div>
+<h2>Manage Clients</h2>
+<div class="admin-layout">
+  <div class="form-container card">
+    <h3>{{ editingClientId ? 'Edit' : 'Create' }} Client</h3>
+    <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Client Name</label>
+        <input formControlName="name">
+      </div>
+      <div class="form-group">
+        <label>Contact Person</label>
+        <input formControlName="contactPerson">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" formControlName="email">
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input formControlName="phone">
+      </div>
+      <button type="submit" class="btn btn-primary">{{ editingClientId ? 'Update' : 'Create' }}</button>
+      <button *ngIf="editingClientId" type="button" (click)="resetFormAndReload()" class="btn btn-secondary" style="margin-left: 8px;">Cancel</button>
+    </form>
   </div>
 
-  <!-- Client List -->
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Client List</h5>
-      <ul class="list-group">
-        <li *ngFor="let client of clients" class="list-group-item d-flex justify-content-between align-items-center">
-          <a [routerLink]="['/clients', client._id]">{{ client.name }}</a>
-          <div>
-            <button class="btn btn-sm btn-warning me-2" (click)="onEdit(client)">Edit</button>
-            <button class="btn btn-sm btn-danger" (click)="onDelete(client._id)">Delete</button>
-          </div>
-        </li>
-      </ul>
+  <div class="list-container">
+    <div class="list-group">
+      <div *ngFor="let client of clients" class="list-item">
+        <div>
+          <h3><a [routerLink]="['/clients', client._id]">{{ client.name }}</a></h3>
+          <p style="margin: 0; color: var(--text-color-light);">{{ client.contactPerson }} - {{ client.email }}</p>
+        </div>
+        <div class="list-item-actions">
+          <button (click)="onEdit(client)" class="btn btn-secondary">Edit</button>
+          <button (click)="onDelete(client._id)" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
